@@ -28,18 +28,18 @@ void Player::isMoving(bool moving)
 	m_bIsMoving = moving;
 }
 
-void Player::move(float speed, int direction)
-{
-	if (direction == NORTH)
-	{
-		m_eSprite.setPosition(m_eSprite.getPosition() - sf::Vector2f(0, speed));
-	}
-}
-
 void Player::move(float speed, sf::Vector2f direction)
 {
-	if (direction.y < 0) m_eSprite.setTextureRect(sf::IntRect(32, (32 * 3), 32, 32));
-	m_eSprite.setPosition(m_eSprite.getPosition() - sf::Vector2f(0, speed));
+	m_eSprite.setPosition(m_eSprite.getPosition() + direction);
+}
+
+void Player::update(float delta)
+{
+	if (m_bNorth == true)
+	{
+		m_eSprite.setTextureRect(sf::IntRect(32, (32 * 3), 32, 32));
+		move(delta, sf::Vector2f(0, -1));
+	}
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

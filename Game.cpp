@@ -17,6 +17,7 @@ void Game::render()
     while (m_eGameWindow.isOpen())
     {
         // ? --> m_eEvents.handle(m_eGameWindow); // Can I ?
+        m_ePlayer.update(updateClock.getElapsedTime().asSeconds());
 
         sf::Event event;
 
@@ -30,7 +31,7 @@ void Game::render()
                 case sf::Event::KeyPressed:
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
                     {
-                        m_ePlayer.isMoving(true);
+                        m_ePlayer.m_bNorth = true;
                         // m_ePlayer.move(updateClock.getElapsedTime().asSeconds(), m_ePlayer.NORTH);
                         // m_ePlayer.move(updateClock.getElapsedTime().asSeconds(), sf::Vector2f(0, -32));
                     }
@@ -38,7 +39,7 @@ void Game::render()
                 case sf::Event::KeyReleased:
                     if (event.key.code == sf::Keyboard::Z)
                     {
-                        m_ePlayer.isMoving(false);
+                        m_ePlayer.m_bNorth = false;
                     }
                 default:
                     break;

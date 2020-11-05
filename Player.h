@@ -8,13 +8,16 @@ class Player : public sf::Drawable, public sf::Transformable
 {
 	public:
 		Player();
-		void move(float speed, int direction);
-		void move(float speed, sf::Vector2f direction);
-
-		enum Directions {NORTH = -1, SOUTH = 1, EAST, WEST};
 
 		bool isMoving();
 		void isMoving(bool moving);
+
+		void move(float speed, sf::Vector2f direction);
+
+		enum Directions {NORTH = -1, SOUTH = 1, EAST = 1, WEST = -1} direction;
+		bool m_bNorth = false;
+
+		void update(float delta);
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual ~Player();
