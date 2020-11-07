@@ -29,18 +29,16 @@ void Game::render()
                     m_eGameWindow.close();
                     break;
                 case sf::Event::KeyPressed:
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-                    {
-                        m_ePlayer.m_bNorth = true;
-                        // m_ePlayer.move(updateClock.getElapsedTime().asSeconds(), m_ePlayer.NORTH);
-                        // m_ePlayer.move(updateClock.getElapsedTime().asSeconds(), sf::Vector2f(0, -32));
-                    }
+                    if (event.key.code == sf::Keyboard::Z) m_ePlayer.setDirection(sf::Vector2f(+0, -1));
+                    if (event.key.code == sf::Keyboard::Q) m_ePlayer.setDirection(sf::Vector2f(-1, +0));
+                    if (event.key.code == sf::Keyboard::S) m_ePlayer.setDirection(sf::Vector2f(+0, +1));
+                    if (event.key.code == sf::Keyboard::D) m_ePlayer.setDirection(sf::Vector2f(+1, +0));
                     break;
                 case sf::Event::KeyReleased:
-                    if (event.key.code == sf::Keyboard::Z)
-                    {
-                        m_ePlayer.m_bNorth = false;
-                    }
+                    if (event.key.code == sf::Keyboard::Z) m_ePlayer.setDirection(sf::Vector2f(0, 0));
+                    if (event.key.code == sf::Keyboard::Q) m_ePlayer.setDirection(sf::Vector2f(0, 0));
+                    if (event.key.code == sf::Keyboard::S) m_ePlayer.setDirection(sf::Vector2f(0, 0));
+                    if (event.key.code == sf::Keyboard::D) m_ePlayer.setDirection(sf::Vector2f(0, 0));
                 default:
                     break;
             }
