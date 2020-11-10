@@ -35,6 +35,7 @@ void Game::render()
         }
 
         m_ePlayer.move(delta.asMilliseconds());
+        m_ePlayer.animate(updateClock);
 
         delta = updateClock.restart();
 

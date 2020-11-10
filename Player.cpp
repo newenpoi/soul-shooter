@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Player::Player() : m_iHealth(100), m_iLastDirection(0), m_bMoving(false), m_iCurrFrame(0), m_iLastFrame(0), frameMove(0), m_ePosition(sf::Vector2f(0, 0))
+Player::Player() : m_iHealth(100), m_iLastDirection(0), m_bMoving(false), m_ePosition(sf::Vector2f(0, 0))
 {
 	anim = sf::Vector2i(1, Down);
 
@@ -45,15 +45,19 @@ void Player::handleInput(sf::Event event)
 		switch (event.key.code)
 		{
 			case sf::Keyboard::Z:
+				anim.y = Up;
 				m_eVelocity -= sf::Vector2f(0, 32);
 				break;
 			case sf::Keyboard::Q:
+				anim.y = Left;
 				m_eVelocity -= sf::Vector2f(32, 0);
 				break;
 			case sf::Keyboard::S:
+				anim.y = Down;
 				m_eVelocity += sf::Vector2f(0, 32);
 				break;
 			case sf::Keyboard::D:
+				anim.y = Right;
 				m_eVelocity += sf::Vector2f(32, 0);
 				break;
 		}
@@ -99,23 +103,22 @@ void Player::move(float delta)
 	m_eSprite.setPosition(m_ePosition);
 }
 
-void Player::animate()
+void Player::animate(sf::Clock time)
 {
-	if (frameMove)
-		m_iLastFrame += 500 * updateClock.restart().asSeconds();
+	if (m_bMoving)
+		fpsCount += fpsSpeed * time.restart().asSeconds();
 	else
-		m_iLastFrame = 0;
+		fpsCount = 0;
 
-	if (m_iLastFrame > 100)
+	if (fpsCount >= switchFps)
 	{
-		m_iCurrFrame++;
-		if (m_iCurrFrame == 2) m_iCurrFrame = 0;
+		anim.x++;
+
+		// si notre animation se termine (en fonction du nombre de frames).
+		if (anim.x * 32 >= (32 * 3)) anim.x = 0;
 	}
 
-	if (m_eVelocity.y < 0) m_eSprite.setTextureRect(sf::IntRect(32 * m_iCurrFrame, 32 * 3, 32, 32));
-	if (m_eVelocity.y > 0) m_eSprite.setTextureRect(sf::IntRect(32 * m_iCurrFrame, 32 * 0, 32, 32));
-	if (m_eVelocity.x > 0) m_eSprite.setTextureRect(sf::IntRect(32 * m_iCurrFrame, 32 * 2, 32, 32));
-	if (m_eVelocity.x < 0) m_eSprite.setTextureRect(sf::IntRect(32 * m_iCurrFrame, 32 * 1, 32, 32));
+	m_eSprite.setTextureRect(sf::IntRect(anim.x * 32, anim.y * 32, 32, 32));
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
