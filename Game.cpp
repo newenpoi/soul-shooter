@@ -9,40 +9,34 @@ Game::Game() : m_eGameWindow(sf::VideoMode(640, 480, 16), "Soul Shooter"), m_eLe
 
 void Game::render()
 {
-    sf::Time updateTime;
-    sf::Clock updateClock;
-
     m_eGameWindow.setFramerateLimit(60);
+
+    sf::Clock updateClock;
+    sf::Time delta;
+
+    m_eGameWindow.setKeyRepeatEnabled(false);
 
     while (m_eGameWindow.isOpen())
     {
-        // ? --> m_eEvents.handle(m_eGameWindow); // Can I ?
-        m_ePlayer.update(updateClock.getElapsedTime().asSeconds());
-
         sf::Event event;
 
         while (m_eGameWindow.pollEvent(event))
         {
+            m_ePlayer.handleInput(event);
+
             switch (event.type)
             {
                 case sf::Event::Closed:
                     m_eGameWindow.close();
                     break;
-                case sf::Event::KeyPressed:
-                    if (event.key.code == sf::Keyboard::Z) m_ePlayer.setDirection(sf::Vector2f(+0, -1));
-                    if (event.key.code == sf::Keyboard::Q) m_ePlayer.setDirection(sf::Vector2f(-1, +0));
-                    if (event.key.code == sf::Keyboard::S) m_ePlayer.setDirection(sf::Vector2f(+0, +1));
-                    if (event.key.code == sf::Keyboard::D) m_ePlayer.setDirection(sf::Vector2f(+1, +0));
-                    break;
-                case sf::Event::KeyReleased:
-                    if (event.key.code == sf::Keyboard::Z) m_ePlayer.setDirection(sf::Vector2f(0, 0));
-                    if (event.key.code == sf::Keyboard::Q) m_ePlayer.setDirection(sf::Vector2f(0, 0));
-                    if (event.key.code == sf::Keyboard::S) m_ePlayer.setDirection(sf::Vector2f(0, 0));
-                    if (event.key.code == sf::Keyboard::D) m_ePlayer.setDirection(sf::Vector2f(0, 0));
                 default:
                     break;
             }
         }
+
+        m_ePlayer.move(delta.asMilliseconds());
+
+        delta = updateClock.restart();
 
         m_eGameWindow.clear(sf::Color::Black);
 
@@ -50,5 +44,8 @@ void Game::render()
         m_ePlayer.draw(m_eGameWindow, sf::RenderStates::Default);
 
         m_eGameWindow.display();
+
+        // Le sleep ci-dessous est destiné aux super-processeurs (expérimental).
+        // sf::sleep(sf::microseconds(1));
     }
 }
