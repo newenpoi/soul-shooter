@@ -13,11 +13,12 @@ class Game
 {
 	public:
 		Game();
+		~Game();
 		void render();
 	private:
 		Window m_eGameWindow;
 		Level m_eLevel;
-		Player m_ePlayer;
+		Player *m_ePlayer;
 };
 
 #endif

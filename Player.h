@@ -7,7 +7,10 @@
 class Player : public sf::Drawable, public sf::Transformable
 {
 	public:
+		// Constructeur.
 		Player();
+		// Constructeur avec Position de Départ.
+		Player(sf::Vector2f position);
 
 		enum Direction { Down, Left, Right, Up };
 		sf::Vector2i anim;
@@ -15,21 +18,21 @@ class Player : public sf::Drawable, public sf::Transformable
 		bool moving() const;
 		void moving(bool toggle);
 
-		void handleInput(sf::Event event);
-		void move(float delta);
-		void animate(sf::Clock clock);
+		sf::Sprite getSprite();
+
+		void handleInput();
+
+		void setRect(sf::IntRect shape);
+
+		void animate(sf::Clock &time);
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual ~Player();
 	private:
 		int m_iHealth;
-		int m_iLastDirection;
-		bool m_bMoving;
+		int m_iSpeed;
 
-		bool updateFps = false;
-		float fpsCount = 0;
-		float switchFps = 100;
-		float fpsSpeed = 500;
+		bool m_bMoving;
 
 		sf::Image m_eImage;
 		sf::Texture m_eTexture;
