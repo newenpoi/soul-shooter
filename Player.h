@@ -13,17 +13,11 @@ class Player : public sf::Drawable, public sf::Transformable
 		Player(sf::Vector2f position);
 
 		enum Direction { Down, Left, Right, Up };
-		sf::Vector2i anim;
 
 		bool moving() const;
 		void moving(bool toggle);
 
-		sf::Sprite getSprite();
-
 		void handleInput();
-
-		void setRect(sf::IntRect shape);
-
 		void animate(sf::Clock &time);
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -38,6 +32,7 @@ class Player : public sf::Drawable, public sf::Transformable
 		sf::Texture m_eTexture;
 		sf::Sprite m_eSprite; // Utiliser Quad ?
 
+		sf::Vector2i m_eAnim;
 		sf::Vector2f m_ePosition;
 		sf::Vector2f m_eVelocity;
 };

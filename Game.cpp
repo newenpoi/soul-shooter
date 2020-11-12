@@ -38,22 +38,7 @@ void Game::render()
         }
 
         m_ePlayer->handleInput();
-        // m_ePlayer.animate(updateClock);
-
-        if (m_ePlayer->moving())
-        {
-            if (updateClock.getElapsedTime().asMilliseconds() >= 50)
-            {
-                m_ePlayer->anim.x++;
-
-                // Si notre animation se termine (en fonction du nombre de frames).
-                if (m_ePlayer->anim.x * 32 >= (32 * 3)) m_ePlayer->anim.x = 0;
-
-                updateClock.restart();
-            }
-        }
-
-        m_ePlayer->setRect(sf::IntRect(m_ePlayer->anim.x * 32, m_ePlayer->anim.y * 32, 32, 32));
+        m_ePlayer->animate(updateClock);
 
         m_eGameWindow.clear(sf::Color::Black);
 
