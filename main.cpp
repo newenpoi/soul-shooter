@@ -5,7 +5,7 @@
 int main()
 {
     Game soulGame;
-    soulGame.render();
+    soulGame.run();
 
     return 0;
 }

@@ -8,8 +8,9 @@ Player::Player()
 
 }
 
-Player::Player(sf::Vector2f position) : m_iHealth(100), m_iSpeed(2), m_bMoving(0), m_ePosition(position)
+Player::Player(sf::Vector2f position) : m_iHealth(100), m_iSpeed(2), m_bMoving(0), m_bFiring(0), m_ePosition(position), m_eWeapon(0)
 {
+	// Initialise le vecteur du rectangle de texture (du sprite) à celui du milieu (1 x 32) nécessaire à l'animation.
 	m_eAnim = sf::Vector2i(1, Down);
 
 	if (!m_eImage.loadFromFile("pc/nara.png"))
@@ -26,6 +27,8 @@ Player::Player(sf::Vector2f position) : m_iHealth(100), m_iSpeed(2), m_bMoving(0
 	// Définir la texture et la position de départ.
 	m_eSprite.setTexture(m_eTexture);
 	m_eSprite.setPosition(position);
+
+	m_eWeapon = new Weapon("uzi.png", 20, m_ePosition);
 }
 
 bool Player::moving() const
@@ -36,6 +39,15 @@ bool Player::moving() const
 void Player::moving(bool toggle)
 {
 	m_bMoving = toggle;
+}
+
+void Player::handleEvent(const sf::Event& event)
+{
+	if (event.type == sf::Event::KeyPressed) m_bMoving = true;
+	if (event.type == sf::Event::KeyReleased) m_bMoving = false;
+
+	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) m_bFiring = true;
+	if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space) m_bFiring = false;
 }
 
 void Player::handleInput()
@@ -60,9 +72,14 @@ void Player::handleInput()
 		m_eAnim.y = Right;
 		m_eSprite.move(m_iSpeed, 0);
 	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		m_bFiring = true;
+		m_eWeapon->update(m_eSprite.getPosition());
+	}
 	else
 	{
-		// Stationnaire.
+		// Idle.
 		m_eAnim.x = 1;
 	}
 }
@@ -90,9 +107,11 @@ void Player::animate(sf::Clock &time)
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_eSprite, states);
+
+	if (m_bFiring) target.draw(m_eWeapon->getSprite(), states);
 }
 
 Player::~Player()
 {
-
+	delete m_eWeapon;
 }

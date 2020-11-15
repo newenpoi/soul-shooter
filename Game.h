@@ -14,6 +14,7 @@ class Game
 	public:
 		Game();
 		~Game();
+		void run();
 		void render();
 	private:
 		Window m_eGameWindow;

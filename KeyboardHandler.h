@@ -9,7 +9,7 @@ class KeyboardHandler
 	public:
 		KeyboardHandler();
 
-		void handle(sf::Event event);
+		void handle(const sf::Event &event);
 
 		bool isPressed(int keyCode) const;
 		bool isReleased(int keyCode) const;

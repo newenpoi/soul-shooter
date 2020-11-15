@@ -5,7 +5,7 @@ KeyboardHandler::KeyboardHandler()
 	m_pKeyState.fill(true);
 }
 
-void KeyboardHandler::handle(sf::Event event)
+void KeyboardHandler::handle(const sf::Event &event)
 {
 	m_pKeyState[event.key.code] = event.key.code;
 }
