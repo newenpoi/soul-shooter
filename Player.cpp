@@ -8,7 +8,7 @@ Player::Player()
 
 }
 
-Player::Player(sf::Vector2f position) : m_iHealth(100), m_iSpeed(2), m_bMoving(0), m_bFiring(0), m_ePosition(position), m_eWeapon(0)
+Player::Player(sf::Vector2f position) : m_iHealth(100), m_iSpeed(2), m_iPrevKey(0), m_bMoving(0), m_bFiring(0), m_ePosition(position), m_eWeapon(0)
 {
 	// Initialise le vecteur du rectangle de texture (du sprite) à celui du milieu (1 x 32) nécessaire à l'animation.
 	m_eAnim = sf::Vector2i(1, Down);
@@ -75,7 +75,6 @@ void Player::handleInput()
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		m_bFiring = true;
-		m_eWeapon->update(m_eSprite.getPosition());
 	}
 	else
 	{
@@ -98,6 +97,11 @@ void Player::animate(sf::Clock &time)
 
 			time.restart();
 		}
+	}
+
+	if (m_bFiring)
+	{
+		m_eWeapon->update(m_eSprite.getPosition(), m_eAnim);
 	}
 
 	// Ajustement du rectangle de la texture du personnage à afficher.

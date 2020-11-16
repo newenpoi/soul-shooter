@@ -158,6 +158,7 @@
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Window.h" />

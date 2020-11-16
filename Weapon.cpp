@@ -13,14 +13,13 @@ Weapon::Weapon()
 
 Weapon::Weapon(string name, int damage, sf::Vector2f playerPosition) : m_sName(name), m_iDamage(damage), m_ePosition(playerPosition)
 {
-    if (!m_eTexture.loadFromFile("tiles/" + name))
+    if (!m_eTexture.loadFromFile("weapons/" + name))
     {
         
     }
 
     m_eSprite.setTexture(m_eTexture);
-    m_eSprite.scale(sf::Vector2f(0.7, 0.7));
-    m_eSprite.setColor(sf::Color(0, 0, 0, 150));
+    m_eSprite.setColor(sf::Color(0, 0, 0, 200));
     m_eSprite.setPosition(m_ePosition.x + 12, m_ePosition.y + 18);
 }
 
@@ -45,9 +44,15 @@ void Weapon::switch_weapon(string new_weapon, int damage)
     m_iDamage = damage;
 }
 
-void Weapon::update(sf::Vector2f position)
+void Weapon::fire()
 {
-    m_eSprite.setPosition(position.x + 12, position.y + 18);
+
+}
+
+void Weapon::update(sf::Vector2f position, sf::Vector2i direction)
+{
+    m_eSprite.setPosition(position);
+    m_eSprite.setTextureRect(sf::IntRect(32, direction.y * 32, 32, 32));
 }
 
 void Weapon::show() const

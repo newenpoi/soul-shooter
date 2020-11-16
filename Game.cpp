@@ -11,12 +11,14 @@ Game::Game() : m_eGameWindow(sf::VideoMode(640, 480, 16), "Soul Shooter"), m_eLe
 void Game::run()
 {
     m_eGameWindow.setFramerateLimit(60);
-
+    
     sf::Clock updateClock;
     sf::Event event;
 
     while (m_eGameWindow.isOpen())
     {
+        
+
         while (m_eGameWindow.pollEvent(event))
         {
             m_ePlayer->handleEvent(event);

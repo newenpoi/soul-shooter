@@ -4,6 +4,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+#include "Projectile.h"
+
 class Weapon
 {
     public:
@@ -15,7 +17,8 @@ class Weapon
         sf::Sprite getSprite();
 
         void switch_weapon(std::string name, int damage);
-        void update(sf::Vector2f position);
+        void fire();
+        void update(sf::Vector2f position, sf::Vector2i direction);
         void show() const;
     private:
         std::string m_sName;
@@ -24,6 +27,8 @@ class Weapon
         sf::Texture m_eTexture;
         sf::Sprite m_eSprite;
         sf::Vector2f m_ePosition;
+
+        std::vector<Projectile> projectiles;
 };
 
 #endif
