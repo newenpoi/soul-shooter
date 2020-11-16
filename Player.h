@@ -4,26 +4,26 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "Weapon.h"
+
 class Player : public sf::Drawable, public sf::Transformable
 {
 	public:
 		// Constructeur.
 		Player();
+
 		// Constructeur avec Position de Départ.
 		Player(sf::Vector2f position);
 
 		enum Direction { Down, Left, Right, Up };
-		sf::Vector2i anim;
 
+		#pragma region Accessors
 		bool moving() const;
 		void moving(bool toggle);
+		#pragma endregion
 
-		sf::Sprite getSprite();
-
+		void handleEvent(const sf::Event& event);
 		void handleInput();
-
-		void setRect(sf::IntRect shape);
-
 		void animate(sf::Clock &time);
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -31,15 +31,19 @@ class Player : public sf::Drawable, public sf::Transformable
 	private:
 		int m_iHealth;
 		int m_iSpeed;
+		int m_iPrevKey;
 
 		bool m_bMoving;
+		bool m_bFiring;
 
 		sf::Image m_eImage;
 		sf::Texture m_eTexture;
-		sf::Sprite m_eSprite; // Utiliser Quad ?
+		sf::Sprite m_eSprite;
 
+		sf::Vector2i m_eAnim;
 		sf::Vector2f m_ePosition;
-		sf::Vector2f m_eVelocity;
+
+		Weapon *m_eWeapon;
 };
 
 #endif

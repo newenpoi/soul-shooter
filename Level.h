@@ -14,6 +14,8 @@ class Level : public sf::Drawable, public sf::Transformable
 		Level();
 		Level(const std::string& name);
 
+		sf::Vector2f getPlayerStart();
+
 		bool load(sf::Vector2u tileSize);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	private:
@@ -25,6 +27,8 @@ class Level : public sf::Drawable, public sf::Transformable
 		sf::Texture m_eTexture;
 		sf::VertexArray m_eVertices;
 		std::vector<int> m_eTiles;
+
+		sf::Vector2f m_ePlayerStart;
 };
 
 #endif

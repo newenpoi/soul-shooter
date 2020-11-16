@@ -22,7 +22,7 @@ Level::Level(const string& name)
     }
 
     // Attention le type doit corresponde au contenu du fichier.
-    while (f >> width >> height >> tile >> content)
+    while (f >> width >> height >> tile >> content >> m_ePlayerStart.x >> m_ePlayerStart.y)
     {
 
     }
@@ -34,6 +34,11 @@ Level::Level(const string& name)
     m_iHeight = height;
 
     m_eTiles = Helper::stringToVector((width * height), content);
+}
+
+sf::Vector2f Level::getPlayerStart()
+{
+    return m_ePlayerStart;
 }
 
 bool Level::load(sf::Vector2u size)
