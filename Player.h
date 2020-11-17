@@ -31,7 +31,6 @@ class Player : public sf::Drawable, public sf::Transformable
 	private:
 		int m_iHealth;
 		int m_iSpeed;
-		int m_iPrevKey;
 
 		bool m_bMoving;
 		bool m_bFiring;
