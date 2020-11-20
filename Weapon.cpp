@@ -38,6 +38,21 @@ sf::Sprite Weapon::getSprite()
     return m_eSprite;
 }
 
+std::vector<Projectile*> Weapon::getProjectiles() const
+{
+    return m_vProjectiles;
+}
+
+sf::Clock Weapon::getDelay() const
+{
+    return m_delay;
+}
+
+void Weapon::resetDelay()
+{
+    m_delay.restart();
+}
+
 void Weapon::switch_weapon(string new_weapon, int damage)
 {
     m_sName = new_weapon;
@@ -46,13 +61,18 @@ void Weapon::switch_weapon(string new_weapon, int damage)
 
 void Weapon::fire()
 {
-
+    m_vProjectiles.push_back(new Projectile(m_eSprite.getPosition()));
 }
 
 void Weapon::update(sf::Vector2f position, sf::Vector2i direction)
 {
     m_eSprite.setPosition(position);
     m_eSprite.setTextureRect(sf::IntRect(32, direction.y * 32, 32, 32));
+}
+
+void Weapon::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.draw(m_eSprite, states);
 }
 
 void Weapon::show() const

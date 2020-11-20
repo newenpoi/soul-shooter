@@ -31,16 +31,6 @@ Player::Player(sf::Vector2f position) : m_iHealth(100), m_iSpeed(2), m_bMoving(0
 	m_eWeapon = new Weapon("uzi.png", 20, m_ePosition);
 }
 
-bool Player::moving() const
-{
-	return m_bMoving;
-}
-
-void Player::moving(bool toggle)
-{
-	m_bMoving = toggle;
-}
-
 void Player::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::KeyPressed) m_bMoving = true;
@@ -72,10 +62,6 @@ void Player::handleInput()
 		m_eAnim.y = Right;
 		m_eSprite.move(m_iSpeed, 0);
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-	{
-		m_bFiring = true;
-	}
 	else
 	{
 		// Idle.
@@ -83,11 +69,11 @@ void Player::handleInput()
 	}
 }
 
-void Player::animate(sf::Clock &time)
+void Player::update(sf::Clock& time)
 {
 	if (m_bMoving)
 	{
-		// Si le temps écoulé de la précédente frame excède 50.
+		// Si le temps écoulé de la précédente frame excède 80.
 		if (time.getElapsedTime().asMilliseconds() >= 80)
 		{
 			m_eAnim.x++;
@@ -101,7 +87,21 @@ void Player::animate(sf::Clock &time)
 
 	if (m_bFiring)
 	{
+		// Mettre à jour la position de l'arme.
 		m_eWeapon->update(m_eSprite.getPosition(), m_eAnim);
+
+		if (m_eWeapon->getDelay().getElapsedTime().asMilliseconds() >= 128)
+		{
+			m_eWeapon->fire();
+
+			m_eWeapon->resetDelay();
+		}
+	}
+
+	// Ajustement des projectiles.
+	for (int i(0); i < m_eWeapon->getProjectiles().size(); ++i)
+	{
+		m_eWeapon->getProjectiles()[i]->update();
 	}
 
 	// Ajustement du rectangle de la texture du personnage à afficher.
@@ -112,7 +112,12 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_eSprite, states);
 
-	if (m_bFiring) target.draw(m_eWeapon->getSprite(), states);
+	if (m_bFiring) m_eWeapon->draw(target, states);
+
+	for (int i(0); i < m_eWeapon->getProjectiles().size(); ++i)
+	{
+		m_eWeapon->getProjectiles()[i]->draw(target, states);
+	}
 }
 
 Player::~Player()

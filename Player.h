@@ -18,13 +18,13 @@ class Player : public sf::Drawable, public sf::Transformable
 		enum Direction { Down, Left, Right, Up };
 
 		#pragma region Accessors
-		bool moving() const;
-		void moving(bool toggle);
+		// None.
 		#pragma endregion
 
 		void handleEvent(const sf::Event& event);
 		void handleInput();
 		void animate(sf::Clock &time);
+		void update(sf::Clock& time);
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual ~Player();

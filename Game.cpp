@@ -27,7 +27,7 @@ void Game::run()
         }
 
         m_ePlayer->handleInput();
-        m_ePlayer->animate(updateClock);
+        m_ePlayer->update(updateClock);
 
         render();
 

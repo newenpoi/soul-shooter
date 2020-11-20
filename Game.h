@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "Window.h"
-#include "KeyboardHandler.h"
 #include "Level.h"
 
 class Game
